@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cd /home/ec2-user/codedeploy-tutorial && npm install --omit=dev && npm run build
+source /home/ec2-user/.bash_profile && cd /home/ec2-user/codedeploy-tutorial && npm install --omit=dev && npm run build
