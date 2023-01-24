@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "codedeploy-tutorial",
+      "cwd": ".",
+      "script": "node dist/main",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}
