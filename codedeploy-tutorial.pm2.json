@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "codedeploy-tutorial",
-      "cwd": ".",
+      "cwd": "/home/ec2-user/codedeploy-tutorial",
       "script": "node dist/main",
       "env": {
         "NODE_ENV": "production"
