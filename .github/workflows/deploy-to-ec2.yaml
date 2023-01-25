@@ -1,0 +1,29 @@
+name: deploy-to-ec2
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+  create-codedeploy-deployment:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.IAM_ROLE_GITHUB }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - name: create codedeploy deployment
+        id: deploy
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{ secrets.CODEDEPLOY_APPLICATION_NAME }} \
+          --deployment-group-name ${{ secrets.CODEDEPLOY_DEPLOYMENT_GROUP_NAME }} \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
