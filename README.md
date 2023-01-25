@@ -1,6 +1,6 @@
 # Role trust policy 
 
-`json
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -21,11 +21,11 @@
         }
     ]
 }
-`
+```
 
 # Policy for github actions
 
-`json
+```json
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -44,4 +44,4 @@
         }
     ]
 }
-`
+```
