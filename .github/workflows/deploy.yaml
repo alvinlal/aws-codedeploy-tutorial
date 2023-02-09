@@ -19,6 +19,22 @@ jobs:
         with:
           role-to-assume: ${{ secrets.IAM_ROLE_GITHUB }}
           aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and zip
+        run: |
+          npm run build
+          zip -r build.zip .
+
+      - name: Deploy build to s3
+        run: |
+          aws deploy push \
+          --application-name ${{ secrets.CODEDEPLOY_APPLICATION_NAME }} \
+          --s3-location s3://${{ secrets.REVISION_BUCKET }}/${{ secrets.CODEDEPLOY_APPLICATION_NAME }}.zip \
+          --source ./build.zip
+
       - name: Create Codedeploy Deployment
         id: deploy
         run: |
@@ -26,4 +42,4 @@ jobs:
           --application-name ${{ secrets.CODEDEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ secrets.CODEDEPLOY_DEPLOYMENT_GROUP_NAME }} \
           --deployment-config-name CodeDeployDefault.OneAtATime \
-          --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+          --s3-location bucket=${{ secrets.REVISION_BUCKET }},key=${{ secrets.CODEDEPLOY_APPLICATION_NAME }}.zip,bundleType=zip\
