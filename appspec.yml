@@ -4,6 +4,8 @@ files:
   - source: /
     destination: /home/ec2-user/codedeploy-tutorial
 
+file_exists_behavior: OVERWRITE
+
 permissions:
   - object: /
     pattern: "**"
@@ -17,10 +19,6 @@ permissions:
     mode: 744
 
 hooks:
-  AfterInstall:
-    - location: scripts/after_install.sh
-      runas: ec2-user
-
   ApplicationStart:
     - location: scripts/application_start.sh
       runas: ec2-user
